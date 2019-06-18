@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>掲示板アプリケーション</title>
+</head>
+<body>
+<h2>掲示板</h2>
+<br>
+
+<!-- 記事投稿欄 -->
+
+<form th:action="@{/bulletin-board/add}" method="post">
+投稿者名：<input type="text" name="name"><br>
+投稿内容:<br>
+<textarea name="content" cols="50" rows="5"></textarea><br>
+<button>記事の投稿</button><br>
+</form>
+<br>
+<hr>
+<br>
+
+<!-- 投稿記事リストの表示 -->
+
+<div th:each="articleList:${articleList}">
+投稿ID:
+<span th:text="${articleList.id}"></span><br>
+投稿者名：
+<span th:text="${articleList.name}"></span><br>
+投稿内容：
+<span th:text="${articleList.content}"></span>
+<form th:action="@{/bulletin-board/delete?id={id}(id=${articleList.id})}" method="post">
+<button>記事削除</button>
+<hr>
+コメント一覧:
+<hr>
+
+<!-- コメントリスト表示 -->
+
+<div th:each="commentList:${articleList.commentList}">
+コメントID：
+<span th:text="${commentList.id}"></span><br>
+コメント者名：
+<span th:text="${commentList.name}"></span><br>
+コメント：
+<span th:text="${commentList.content}"></span><br>
+<hr>
+</div>
+
+<!-- コメント入力欄 -->
+
+<hr>
+
+</form>
+<form th:action="@{/bulletin-board/comment?id={id}(id=${articleList.id})}" method="post">
+名　　前：<input type="text" name="name"><br>
+コメント:<br>
+<textarea name="content" cols="50" rows="3"></textarea><br>
+<br>
+<button>コメント投稿</button>
+</form>
+</div>
+</body>
+</html>
